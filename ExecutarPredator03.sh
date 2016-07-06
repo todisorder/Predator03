@@ -6,13 +6,13 @@ echo "Results folder name:"
 read Folder
 rm -r "$Folder"
 mkdir "$Folder"
-cp predator03  "$Folder"
+cp predator-03  "$Folder"
 cp Predator-03.cpp  "$Folder"/CPPPredatorUsado.cpp
 cp plot-png.sh  "$Folder"
 cp plots-Mass.plt  "$Folder"
 cd "$Folder"
 
-./predator03 &&
+./predator-03 &&
 mkdir Plots
 mkdir Resultados
 sh plot-png.sh &&

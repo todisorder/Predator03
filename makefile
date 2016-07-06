@@ -1,13 +1,16 @@
-OBJ=Predator-03.o
-TESTES_OBJS=Testes.o Dados.o Tridiagonal.o Vectores.o Solver_SCL.o 
-CFLAGS=-Wall -g
+CC=g++
+Version=-03
+OBJ=Predator$(Version).o
+#CFLAGS=-Wall -g -std=c++11
+CFLAGS= -g -std=c++11
 
-predator03:$(OBJ)
-	clang++ $(CFLAGS) -o predator03 $(OBJ) -lm
+predator$(Version):$(OBJ)
+	$(CC) -o predator$(Version) $(OBJ) -lm
 
-testes:$(TESTES_OBJS)
-	clang++ $(CFLAGS) -o testes $(TESTES_OBJS) -lm
+$(OBJ):Predator$(Version).cpp
+	$(CC) $(CFLAGS) -c Predator$(Version).cpp 
+
 clean:
 	rm -f *.o;
-	rm -f predator03;
+	rm -f predator$(Version);
 
