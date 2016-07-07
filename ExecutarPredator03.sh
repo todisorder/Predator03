@@ -1,23 +1,27 @@
 make &&
-touch ./U_SoPaNaoChatearComErrosDoRM.txt
-rm U_*;
 
 echo "Results folder name:"
 read Folder
-rm -r "$Folder"
+Version="-03"
+[ -d "$Folder" ] && rm -r "$Folder"
 mkdir "$Folder"
-cp predator-03  "$Folder"
-cp Predator-03.cpp  "$Folder"/CPPPredatorUsado.cpp
+cp predator"$Version"  "$Folder"
+cp Predator"$Version".cpp  "$Folder"/CPPPredatorUsado.cpp
 cp plot-png.sh  "$Folder"
-cp plots-Mass.plt  "$Folder"
+cp PlotMass.plt  "$Folder"
 cd "$Folder"
 
-./predator-03 &&
+./predator"$Version" &&
 mkdir Plots
 mkdir Resultados
 sh plot-png.sh &&
-#gnuplot plots-Mass.plt
+gnuplot PlotMass.plt
 #cp ../LogsLast.txt .
+
+[ ! -d ../LastResult ] && mkdir ../LastResult
+touch ../LastResult/Paranaochatearcomerrosdorm.txt
+rm -r ../LastResult/*
+cp -r * ../LastResult/
 
 echo "Done!"
 

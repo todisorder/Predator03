@@ -37,7 +37,7 @@ static double const ChiPrey = 10.;          //
 //  Prey Pheromone evaporation (nondimensional!)
 static double const DeltaPreyPhero = .5;           //
 
-//  Prey Equation alpha coefficient (nondimensional!)
+//  Predator Equation alpha coefficient (nondimensional!)
 static double const alpha = 25.;           //
 
 //  Predator chemotactical sensitivity (nondimensional!)
@@ -46,7 +46,7 @@ static double const ChiPredator = 20.;          //
 //  Predator Pheromone evaporation (nondimensional!)
 static double const DeltaPredatorPhero = .5;           //
 
-//  Predator Equation beta coefficient (nondimensional!)
+//  Prey Equation beta coefficient (nondimensional!)
 static double const beta = 25.;           //
 //////////////////////////////////////////////////////
 // End Population parameters
@@ -55,7 +55,7 @@ static double const beta = 25.;           //
 
 // tempo final
 //static double const TFINAL = 0.1;
-static double const delta_t = 0.001;   //     0.00002
+static double const delta_t = 0.0001;   //     0.00002
 
 
 ////////////////////////////
@@ -905,6 +905,124 @@ double Compute_mass(double delta_x, double delta_y, int xx, int yy, my_matrix U 
     return aux;
 }
 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+// Print Domain Info
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+void PrintInfo(int xx, int yy, int tt, string COMM){
+    
+    double delta_x;
+    delta_x = (b_x-a_x)/xx;
+    double delta_y;
+    delta_y = (b_y-a_y)/yy;
+    
+//    double axInCm = a_x * XHatCm;
+//    double bxInCm = b_x * XHatCm;
+//    double ayInCm = a_y * XHatCm;
+//    double byInCm = b_y * XHatCm;
+    
+    
+    //    ofstream tempfile("temp.txt",ios::app);
+    ofstream tempfile;
+    tempfile.open("LogsLast.txt");
+    string tempinfo;
+    
+    tempfile << "#############################################################"<<endl;
+    tempfile << "#############################################################"<<endl;
+    tempfile << "#############################################################"<<endl;
+    tempfile <<"# dt = "<< delta_t<< "\t xx = "<<xx<< "\t yy = "<<yy<< "\t dx = "<<delta_x<< "\t dy = "<<delta_y<< "\t Tfinal = "<<tt*delta_t<< "\t Iter = " << tt <<  endl;
+    tempfile <<"#" << "\t" << COMM <<endl;
+    tempfile << "------------------------------------------------------" << endl;
+    tempfile << "Domain Info:" << endl;
+    tempfile << "Domain  = [" << x_1 << "," << x_2 << "] x [" << y_1 << "," << y_2 << "]" << endl;
+//    tempfile << "Domain Length x in x hat = " << b_x - a_x << endl;
+//    tempfile << "Domain Length y in x hat = " << b_y - a_y << endl;
+//    tempfile << "Domain Length x in cm = " << b_xCm - a_xCm << endl;
+//    tempfile << "Domain Length y in cm = " << b_yCm - a_yCm << endl;
+//    tempfile << "Area (cm^2): " << AreaCm << endl;
+//    tempfile << "Area (m^2): " << AreaMet << endl;
+//    tempfile << "Area (x hat^2): " << AreaHat << endl;
+    tempfile << "Spatial points: " << xx*yy << endl;
+//    tempfile << "Dimensions:" << endl;
+//    tempfile << "-----------" << endl;
+//    tempfile << "T hat = " << THatSec << " sec." << endl;
+//    tempfile << "sec = " << 1./THatSec << " T hat." << endl;
+//    tempfile << "X hat = " << XHatCm << " cm." << endl;
+//    tempfile << "cm = " << 1./XHatCm << " X hat." << endl;
+//    tempfile << "X hat^2 = " << XHatCm*XHatCm << " cm^2." << endl;
+//    tempfile << "cm^2 = " << 1./(XHatCm*XHatCm) << " X hat^2." << endl;
+//    tempfile << "Total Population: (ants): " << TotalPop << endl;
+//    tempfile << "Total Population: (new units): " << TotalPopHat << endl;
+//    tempfile << "Reference density (ants/cm^2): " << URefCm << endl;
+//    tempfile << "Reference density (ants/x hat^2): " << URefHat << endl;
+//    tempfile << "Nest radius (cm): " << NestRadiusCm << endl;
+//    tempfile << "Nest Area in x hat^2: " << NestAreaXHat << endl;
+//    tempfile << "Food center 1, x: " << food_center_1_x << endl;
+//    tempfile << "Food center 1, y: " << food_center_1_y << endl;
+//    tempfile << "Food center 2, x: " << food_center_2_x << endl;
+//    tempfile << "Food center 2, y: " << food_center_2_y << endl;
+    tempfile << "Parameters:" << endl;
+    tempfile << "-----------" << endl;
+    tempfile << "Prey Diffusion = " << DDPrey << " " << endl;
+    tempfile << "Predator Diffusion = " << DDPredator << " " << endl;
+    tempfile << "Prey odor Diffusion = " << DDPreyPhero << " " << endl;
+    tempfile << "Predator odor Diffusion = " << DDPredatorPhero << " " << endl;
+    tempfile << "Prey sensitivity = " << ChiPrey << " " << endl;
+    tempfile << "Predator sensitivity = " << ChiPredator << " " << endl;
+    tempfile << "Prey odor evaporation = " << DeltaPreyPhero << " " << endl;
+    tempfile << "Predator odor evaporation = " << DeltaPredatorPhero << " " << endl;
+    tempfile << "Prey RHS coefficient = " << beta << " " << endl;
+    tempfile << "Predator RHS coefficient = " << alpha << " " << endl;
+    
+    tempfile << "Food Half Life (sec) = " << FoodHalfLifeSec << " sec." << endl;
+    tempfile << "Pheromone Diffusion (nondimensional) = " << DDvv << " " << endl;
+    tempfile << "Pheromone Evaporation (nondimensional) = " << Epsilon << " " << endl;
+    tempfile << "Foraging ant chemotactical sensitivity (nondimensional) = " << Chiuu << " " << endl;
+    tempfile << "Returning ant diffusion (nondimensional!) = " << DDww << " " << endl;
+    tempfile << "Rate of emergence in new units = " << C_M << endl;
+    tempfile << "Rate of emergence in ants/sec = " << C_M_OldUnits << endl;
+    tempfile << "Time until total pop. emerges (in t hat) = " << T_M << endl;
+    tempfile << "Ant Speed (cm/sec): = " << AntSpeedCmSec << endl;
+    tempfile << "Ant Speed (x hat / t hat) " << AntSpeedHat << endl;
+    tempfile << "Food Quantity Old units " << FoodQuantityOldUnits << endl;
+    tempfile << "Food Quantity (x hat / t hat) " << FoodQuantityHat << endl;
+    tempfile << "------------------------------------------------------" << endl;
+    tempfile << "delta t (seconds) = " << delta_t * THatSec << endl;
+    tempfile << "Tfinal (t hat) = " << tt*delta_t<< endl;
+    tempfile << "Tfinal (seconds) = " << tt*delta_t * THatSec << endl;
+    tempfile << "Tfinal (minutos) = " << tt*delta_t * THatSec / 60.<< endl;
+    tempfile << "Tfinal (horas) = " << tt*delta_t * THatSec / 3600.<< endl;
+    tempfile << "------------------------------------------------------" << endl;
+    
+    tempfile << " " << endl;
+    
+    tempfile.close();
+    
+    system("cp LogsLast.txt temp1.txt");
+    system("cat LogsLast.txt >> LogsData.txt");
+    
+    ifstream tempfile1;
+    tempfile1.open("temp1.txt");
+    
+    while (getline(tempfile1, tempinfo,'\n'))
+    {
+        cout << tempinfo << endl;
+    }
+    
+    //    getline(tempfile1,tempinfo,'\n');
+    //    cout << tempinfo << endl;
+    
+    tempfile1.close();
+    
+    system("rm temp1.txt");
+    
+    
+    
+    
+}
+
+
 
 ////////////////////////////////////////////////////////
 // Main
@@ -962,7 +1080,7 @@ int main (void){
     double Mass_Predator = Compute_mass(delta_x, delta_y, xx,yy, Predator_old);
 
     ofstream Mass(DIR2+"Mass.txt");
-    Mass << "# tcurrent - [($2) Mass_u1] - [($3) Mass_u2] - [($4) Mass_food] - [($5) Iter] -[($6) Mass_u1 + Mass_u2] - [($7) Tempo em Horas]" << endl;
+    Mass << "# tcurrent - [($2) Mass_Prey] - [($3) Mass_Predator] - [($4) Iteration]"  << endl;
 
     /////////////////////////////
     // Ciclo em tempo
@@ -977,21 +1095,11 @@ int main (void){
             Mass_Prey = Compute_mass(delta_x, delta_y, xx,yy, Prey_old);
             Mass_Predator = Compute_mass(delta_x, delta_y, xx,yy, Predator_old);
             
-            Mass << i*(delta_t) << "\t" << Mass_Prey << "\t" << Mass_Predator  << "\t" << i <<"\t" << i*delta_t << endl;
-            
-   //         if (isnan(Prey_old(xx/2,yy/2))) {
-   //             cout <<  "NAN numa iter menor que "<< i << endl;
-   //
-   //             system("osascript -e 'tell app \"System Events\" to display dialog \"Abort!!!\" with icon 0 with title \"Abort!\" '");
-   //             system("sh plot-png.sh");
-   //             isAbort = 1;
-                //abort();
-   //             break;
-     //       }
+            Mass << i*(delta_t) << "\t" << Mass_Prey << "\t" << Mass_Predator  << "\t" << i  << endl;
             
         }
         
-        if (i%500 == 0) {            //  2000 !!!
+        if (i%1000 == 0) {            //  2000 !!!
             save_time_step(xx, yy, Prey_old, i, "Prey-", DIR);
             save_time_step(xx, yy, Predator_old, i, "Predator-", DIR);
             save_time_step(xx, yy, PreyPhero_old, i, "PreyPhero-", DIR);

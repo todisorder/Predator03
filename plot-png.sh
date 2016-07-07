@@ -6,7 +6,7 @@ touch ./Plots/foo
 rm ./Plots/*
 mv ./Resultados/* . &&
 echo "reset" >> plots.plt
-echo "set palette gray negative" >> plots.plt
+#echo "set palette gray negative" >> plots.plt
 echo "Generating gnuplot source code..."
 for i in Prey*;
 do
@@ -83,7 +83,7 @@ gnuplot plots.plt;
 #convert  -delay 5 ./Plots/U_food_p*.png ./Plots/myanimationU_food_phero.mov
 #echo "Done"
 echo "Copying files..."
-rm ./Resultados/*
+#rm ./Resultados/*
 mv Pr* ./Resultados
 #mv Vel_* ./Resultados
 #rm ~/Dropbox/Formigas/*.mov
